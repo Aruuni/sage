@@ -1,3 +1,8 @@
+## Plan
+- make the server.sh
+- make the receiver.sh
+- add the necessary logging 
+ 
 # Sage
 ### or How Computers Can Learn from Existing Schemes and Master Internet CC!
 This repository offers the Sage framework, initially introduced in our [SIGCOMM'23 paper](https://dl.acm.org/doi/10.1145/3603269.3604838). You can check out a 10-min recorded presentation of Sage [here](https://www.youtube.com/watch?app=desktop&v=_3-n8_1JwnU&ab_channel=ACMSIGCOM). 
