@@ -2,7 +2,7 @@
 
 if [ $# != 20 ]
 then
-    echo -e "[port] [Report Period: 10 msec--fixed for now :)] [First Time: 1=yes(learn), 0=no(continue learning), 2=evaluate] [scheme: pure] [path to run.py] [actor id=0, 1, ...] [downlink] [uplink] [one-way delay] [log_file/comment] [duration] [loss rate] [qsize] [num_steps] [basetimestamp_fld] [bw] [bw2] [trace_period] [save] [num_flows]"
+    echo -e "1[port] 2[Report Period: 10 msec--fixed for now :)] 3[First Time: 1=yes(learn), 0=no(continue learning), 2=evaluate] 4[scheme: pure] 5[path to run.py] 6[actor id=0, 1, ...] 7[downlink] 8[uplink] 9[one-way delay] 10[log_file/comment] 11[duration] 12[loss rate] 13[qsize] 14[num_steps] 15[basetimestamp_fld] 16[bw] 17[bw2] 18[trace_period] 19[save] 20[num_flows]"
 
     echo "$@"
     echo "$#"
