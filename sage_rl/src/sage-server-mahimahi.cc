@@ -323,7 +323,7 @@ void start_server(int flow_num, int client_port)
         return;
     } 
 
-    DBGERROR("Starting RL in Evalution Mode(0) ...\n%s",cmd);
+    DBGERROR("Starting RL in Evalution Mode(0) ...\n");
     sprintf(cmd,"/home/`echo $USER`/venvpy36/bin/python %s/tcpactor.py --base_path=%s --mode=0 --mem_r=%d --mem_w=%d --id=%d --flows=%d --bw=48&",path,path,(int)key,(int)key_rl,actor_id,flows_num);
     
     system(cmd);
@@ -454,7 +454,7 @@ void start_server(int flow_num, int client_port)
                     } 
                 }
                 
-            DBGERROR("(Actor %d) Server is Connected to the client...\n",actor_id);
+            //DBGERROR("(Actor %d) Server is Connected to the client...\n",actor_id);
             flow_index++;
         }
     }
@@ -679,6 +679,7 @@ void* CntThread(void* information)
                while(!got_no_zero && send_traffic)
                {
                     t1=timestamp();
+
                     if((t1-t0)<(report_period*1000))
                     {
                         usleep(report_period*1000-t1+t0);
@@ -799,6 +800,7 @@ void* CntThread(void* information)
               
                         if(sage_info.rtt>0)
                         {
+                            pacing_rates.push_back(pacing_rate);
                             sending_rate = sending_rate/time_delta; // Bps
 
                             sending_rates.add((u64)sending_rate);
@@ -1144,13 +1146,15 @@ void* CntThread(void* information)
                    }
                    else{
                         usleep(10);
-                        if (error2_cnt%1000 == 0)
-                            DBGERROR("NULL-ALPHA => cnt=%d! Actor_id: %d, PreID: %d num:%s alpha:%s\n", error2_cnt, actor_id, pre_id, num, alpha);
+                        if (error2_cnt%1000 == 0){
+                            //DBGERROR("NULL-ALPHA => cnt=%d! Actor_id: %d, PreID: %d num:%s alpha:%s\n", error2_cnt, actor_id, pre_id, num, alpha);
+
+                        }
                         error2_cnt += 1;
                    }
                    if(!got_alpha && (timestamp()/1000-action_get_time_start_ms)>WAIT_FOR_ACTION_MAX_ms)
                    {
-                       DBGERROR("............. Time: %f (s), No action from RL agent (id:%d), skipping this round ................\n",(double)(raw_timestamp()/1000-start_timestamp)/1000,pre_id);
+                       //DBGERROR("............. Time: %f (s), No action from RL agent (id:%d), skipping this round ................\n",(double)(raw_timestamp()/1000-start_timestamp)/1000,pre_id);
                        //Skip this round!
                        got_alpha=1;
                    }
