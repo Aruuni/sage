@@ -62,6 +62,17 @@
 struct timeval tv_start;	//Start time (after three way handshake)
 struct timeval tv_end;		//End time
 
+template<typename ... Args>
+std::string string_format( const std::string& format, Args ... args )
+{
+    int size_s = std::snprintf( nullptr, 0, format.c_str(), args ... ) + 1; // Extra space for '\0'
+    if( size_s <= 0 ){ throw std::runtime_error( "Error during formatting." ); }
+    auto size = static_cast<size_t>( size_s );
+    std::unique_ptr<char[]> buf( new char[ size ] );
+    std::snprintf( buf.get(), size, format.c_str(), args ... );
+    return std::string( buf.get(), buf.get() + size - 1 ); // We don't want the '\0' inside
+}
+
 //Print usage information
 void usage();
 int check_input(int data_size, int deadline, int is_agnostic)
@@ -97,8 +108,9 @@ int main(int argc, char **argv)
 	int connected=0;
     int i;
     start_timestamp=start_timestamp*1000;
+    
 
-	if(argc!=4)
+	if(argc!=5)
 	{
 		usage();
         for(int i=0;i<argc;i++)
@@ -315,7 +327,7 @@ int main(int argc, char **argv)
 
 void usage()
 {
-	DBGERROR("./client [server IP address] [flowid] [server port] [interval]\n");
+	DBGERROR("./clientLog [server IP address] [flowid] [server port] [interval]\n");
 }
 
 

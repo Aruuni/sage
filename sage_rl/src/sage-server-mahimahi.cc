@@ -39,6 +39,7 @@
 #include <string>
 #include <stdexcept>
 #include <vector>
+#include <numeric>
 #include <string>
 #include <sstream>
 #include <fstream>
@@ -139,7 +140,7 @@ u64 send_begun;
 int main(int argc, char **argv)
 {
     DBGPRINT(DBGSERVER,4,"Main\n");
-    if(argc!=20)
+    if(argc!=6)
 	{
         DBGERROR("argc:%d\n",argc);
         for(int i=0;i<argc;i++)
@@ -167,7 +168,6 @@ int main(int argc, char **argv)
 	codel=2;//atoi(argv[10]);
    	//env_bw=atoi(argv[5]); // definetly not needed
     //first_time=atoi(argv[6]); // definetly not needed
-    scheme="pure"; // converted to constant 
     actor_id=atoi(argv[3]); // definetly NEEDED
 
     //downlink=argv[9]; // definetly not needed
@@ -176,6 +176,7 @@ int main(int argc, char **argv)
     //log_file=argv[12]; // definetly not needed
     duration=atoi(argv[4]); 
     // mm_loss_rate=atof(argv[14]); // definetly not needed
+    scheme=argv[5]; 
     // qsize=atoi(argv[15]); // definetly not needed
     duration_steps=0; // definetly NEEDED
 
@@ -368,7 +369,7 @@ void start_server(int flow_num, int client_port)
     DBGERROR("(Actor %d) RL Module is Ready. Let's Start ...\n\n",actor_id);    
     usleep(actor_id*10000+10000);
     //Now its time to start the server-client app ...
-    initial_timestamp();
+    //initial_timestamp();
     //system(final_cmd);
 #endif
 	//Give Mahimahi enough time to write the BaseTimestamp to the file! ;)
@@ -470,10 +471,19 @@ void* TimerThread(void* information)
         while(send_traffic)
         {
             sleep(1);
+            old_elapsed = elapsed;
+            elapsed=(double)((timestamp()-start)/1000000.0);      //unit s
+
+            std::cout << timestamp()/1000000.0 << "," << std::accumulate(std::begin(pacing_rates), std::end(pacing_rates), 0.0)/pacing_rates.size()*8 << "," << bytes_sent << std::endl;
+            // printf(std::cout, "%f,%f,%f\n", timestamp() , bytes_sent/(elapsed - old_elapsed) * 8, bytes_sent);
+            pacing_rates.clear();
+            bytes_sent = 0;
             elapsed=(unsigned int)((timestamp()-start)/1000000);      //unit s
-            if (elapsed>duration)    
+            if (elapsed>=duration)    
             {
                 send_traffic=false;
+                std::cout << "----END----" << std::endl;
+
             }
         }
     }

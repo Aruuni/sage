@@ -38,6 +38,7 @@ pthread_mutex_t lockit;
 #include <math.h>
 #include <time.h>
 #define __STDC_FORMAT_MACROS
+#include <vector>
 #include <inttypes.h>
 #include <deque>
 
@@ -69,6 +70,10 @@ typedef uint64_t  u64;
 typedef int64_t  i64;
 typedef uint8_t  u8;
 
+double old_elapsed = 0;
+u64 bytes_sent = 0;
+u64 sent = 0;
+std::vector<double> pacing_rates;
 
 bool    send_traffic=true;
 u32     step_it=0;
