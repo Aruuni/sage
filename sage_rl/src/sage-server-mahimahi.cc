@@ -800,7 +800,7 @@ void* CntThread(void* information)
               
                         if(sage_info.rtt>0)
                         {
-                            pacing_rates.push_back(pacing_rate);
+                            pacing_rates.push_back(sage_info.pacing_rate);
                             sending_rate = sending_rate/time_delta; // Bps
 
                             sending_rates.add((u64)sending_rate);
