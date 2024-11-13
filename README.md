@@ -65,10 +65,6 @@ Install the required Mahimahi patches as per the instructions provided in [ccBen
 ## Installing Sage
 Sage is developed and tested on Python 3.6, and built on top of TensorFlow 2.
 
-Begin by installing necessary system tools:
-```bash
-bash install_packages.sh
-```
 
 To install the required Python packages and manage the dependencies, set up a Python environment using a virtual environment. 
 
